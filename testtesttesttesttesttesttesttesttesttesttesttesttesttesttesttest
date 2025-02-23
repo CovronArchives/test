@@ -1,0 +1,79 @@
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
+Library.Theme = "Starry Night"  -- Set the theme to Dark
+local Flags = Library.Flags  -- Access flags
+
+local Window = Library:Window({
+    Text = "CovronsLife V1"  -- Window title
+ })
+ local Tab = Window:Tab({
+    Text = "Main"  -- Tab title
+ })
+ local Section = Tab:Section({
+    Text = "Blatant"  -- Section title in Tab
+ })
+ Section:Button({
+    Text = "Remove Doors",  -- Button text
+    Callback = function()
+        for _, obj in pairs(workspace.Doors:GetChildren()) do
+            obj:Destroy()
+        end
+        
+    end
+ })
+ Section:Button({
+    Text = "Remove Fences",  -- Button text
+    Callback = function()
+        for _, obj in pairs(workspace.Prison_Fences:GetChildren()) do
+            obj:Destroy()
+        end
+    end
+ })
+ local toggleState = false
+
+Section:Toggle({
+    Text = "Auto-Arrest",
+    Callback = function(bool)
+        toggleState = bool
+        warn("Arrest is  " .. tostring(bool))
+    end
+})
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if toggleState then
+        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+            if player.Character and player.Character:FindFirstChild("Head") then
+                local args = {
+                    [1] = player.Character.Head
+                }
+                workspace:WaitForChild("Remote"):WaitForChild("ItemHandler"):InvokeServer(unpack(args))
+            end
+        end
+    end
+end)
+Section:Input({
+    Text = "Speed",  -- Input field label
+    Callback = function(txt)
+        while true do
+            wait(0.01)
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = txt
+        end
+    end
+ })
+ Section:Input({
+    Text = "Jump-Height",  -- Input field label
+    Callback = function(txt)
+        while true do
+            wait(0.01)
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = txt
+        end
+    end
+ })
+ Section:Slider({
+    Text = "Speed",  -- Slider label
+    Default = 25,  -- Default value
+    Minimum = 0,  -- Minimum value
+    Maximum = 200  -- Maximum value
+    Callback = function(bool)
+        warn(bool)  -- Display toggle state (true/false)
+    end
+ })
