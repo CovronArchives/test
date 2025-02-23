@@ -68,12 +68,3 @@ Section:Input({
         end
     end
  })
- Section:Slider({
-    Text = "Speed",  -- Slider label
-    Default = 25,  -- Default value
-    Minimum = 0,  -- Minimum value
-    Maximum = 200  -- Maximum value
-    Callback = function(bool)
-        warn(bool)  -- Display toggle state (true/false)
-    end
- })
